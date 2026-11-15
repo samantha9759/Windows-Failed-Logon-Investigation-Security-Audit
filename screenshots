@@ -1,1 +1,21 @@
+## Screenshots
 
+### 1. Verifying Event ID 4625 in Windows Event Viewer
+Inspected the `Audit Failure` event (`Event ID 4625`) from `10/8/2026` inside the Windows Event Viewer GUI to verify the timestamp, host machine (`DESKTOP-P1D1H5I`), and logon category.
+![Windows Event Viewer](screenshots/event-viewer-4625.png)
+
+### 2. Reviewing the PowerShell Script Code
+Examined `failed-logon-audit.ps1` in Notepad, which uses `Get-WinEvent` and XML parsing (`[xml]$Event.ToXml()`) to extract structured security telemetry from raw event logs.
+![Script Code in Notepad](screenshots/script-notepad.png)
+
+### 3. Querying Failed Logon Telemetry via PowerShell
+Ran `Get-WinEvent` filtering for Security Event ID `4625` to inspect the logon attempt, identifying **Logon Type 2** (Interactive local sign-in) and a **Null SID (`S-1-0-0`)**.
+![PowerShell Event Query Top](screenshots/powershell-query-top.png)
+
+### 4. Analyzing Failure Codes & Network Source
+Reviewed the failure codes (`0xC000006D` / Sub Status `0xC0000380`), caller process (`svchost.exe`), and loopback IP (`127.0.0.1`), confirming a benign local credential prompt rather than a remote brute-force attack.
+![PowerShell Event Query Bottom](screenshots/powershell-query-bottom.png)
+
+### 5. Validating the Script Path & Header
+Verified the script location on the Desktop using `Test-Path` (`True`) and previewed the script initialization lines using `Get-Content`.
+![Verify Script Path](screenshots/verify-script-path.png)
